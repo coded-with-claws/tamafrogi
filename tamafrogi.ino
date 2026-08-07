@@ -146,6 +146,7 @@ void loop() {
   switch(frogi_state) {
     case HAPPY: {
       // display a happy animation a few times (then next loop will display another animation if still happy)
+      choose_new_happy_anim();
       for(anim_count = 0; frogi_state == HAPPY && anim_count < HAPPY_ANIM_DISPLAY_TIMES; anim_count++) {
         disp_happy();
       }
@@ -198,17 +199,17 @@ void disp_anim(uint8_t* anim_frames[], uint8_t num_frames) {
 void disp_startup() {
 }
 
-/*const uint8_t** anim_happy_all_frames[] = {anim_happy1_frames, anim_happy2_frames};
-const uint8_t anim_happy_all_numFrames[] = {9, 38};*/
+const uint8_t** anim_happy_all_frames[] = {anim_happy1_frames, anim_happy2_frames};
+const uint8_t anim_happy_all_numFrames[] = {9, 38};
 
 uint8_t** frames;
 uint8_t numFrames;
 
 void disp_happy() {
 
-  /*frames = (uint8_t*)anim_happy_all_frames[current_happy_anim];
-  numFrames = anim_happy_all_numFrames[current_happy_anim];*/
-  /*switch(current_happy_anim) {
+  frames = (uint8_t**)anim_happy_all_frames[current_happy_anim];
+  numFrames = anim_happy_all_numFrames[current_happy_anim];
+  switch(current_happy_anim) {
     case 0:
       frames = (uint8_t**)anim_happy1_frames;
       numFrames = anim_happy1_numFrames;
@@ -218,9 +219,7 @@ void disp_happy() {
       numFrames = anim_happy2_numFrames;
       break;
       
-  }*/
-  frames = (uint8_t**)anim_happy1_frames;
-  numFrames = anim_happy1_numFrames;
+  }
   disp_anim(frames, numFrames);
   //Serial.println(F("DISPLAY HAPPY ANIMATION")); delay(5000); // DEBUG
 }
