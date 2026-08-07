@@ -179,14 +179,13 @@ void loop() {
 
 void disp_anim(const uint8_t* anim_frames[], const uint8_t num_frames) {
   static uint8_t frameIdx = 0;
-  //static unsigned long lastMs = 0;
   for(frameIdx = 0; frameIdx < num_frames; frameIdx++) {
-    //lastMs = millis();
     display.clearDisplay();
     display.drawBitmap(0, 0, anim_frames[frameIdx], 128, 64, SH110X_WHITE);
     display.display();
     frameIdx = (frameIdx + 1) % num_frames;
-    delay(67);
+    //delay(67);
+    delay(133);
   }  
 }
 
