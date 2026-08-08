@@ -139,13 +139,13 @@
 enum frogi_states { HAPPY, SLEEPY, NEEDY, LOVY };
 frogi_states frogi_state = HAPPY;
 // PROD
-//#define DELAY_SLEEPY_SEC 300
-//#define DELAY_NEEDY_SEC 3600
-//#define HAPPY_ANIM_DISPLAY_TIMES 30
+#define DELAY_SLEEPY_SEC 300
+#define DELAY_NEEDY_SEC 3600
+#define HAPPY_ANIM_DISPLAY_TIMES 60
 // DEBUG
-#define DELAY_SLEEPY_SEC 10
+/*#define DELAY_SLEEPY_SEC 10
 #define DELAY_NEEDY_SEC 30
-#define HAPPY_ANIM_DISPLAY_TIMES 5
+#define HAPPY_ANIM_DISPLAY_TIMES 5*/
 
 
 // Constants for animations
