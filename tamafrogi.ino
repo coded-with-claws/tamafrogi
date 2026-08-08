@@ -68,6 +68,7 @@
 #include <Adafruit_SH110X.h>
 
 #include "tamafrogi_happy1.h"
+#include "tamafrogi_happy2.h"
 #include "tamafrogi_love1.h"
 #include "tamafrogi_need1.h"
 #include "tamafrogi_sleep1.h"
@@ -93,10 +94,14 @@ frogi_states frogi_state = HAPPY;
 #define DELAY_NEEDY_SEC 30
 #define HAPPY_ANIM_DISPLAY_TIMES 5
 
+// other constants
+#define HAPPY_ANIM_NUMBER 2 // number of happy animations (tamafrogi_happy1, etc)
+
 // global variables
 hw_timer_t * timer = NULL;
 unsigned int seconds_count_sleepy = 0;
 unsigned int seconds_count_needy = 0;
+uint8_t current_happy_anim = 0;
 
 Adafruit_SH1106G display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
@@ -141,6 +146,7 @@ void loop() {
   switch(frogi_state) {
     case HAPPY: {
       // display a happy animation a few times (then next loop will display another animation if still happy)
+      choose_new_happy_anim();
       for(anim_count = 0; frogi_state == HAPPY && anim_count < HAPPY_ANIM_DISPLAY_TIMES; anim_count++) {
         disp_happy();
       }
@@ -177,7 +183,7 @@ void loop() {
 // Display functions
 // ---------------- //
 
-void disp_anim(const uint8_t* anim_frames[], const uint8_t num_frames) {
+void disp_anim(uint8_t* anim_frames[], uint8_t num_frames) {
   static uint8_t frameIdx = 0;
   for(frameIdx = 0; frameIdx < num_frames; frameIdx++) {
     display.clearDisplay();
@@ -192,24 +198,53 @@ void disp_anim(const uint8_t* anim_frames[], const uint8_t num_frames) {
 void disp_startup() {
 }
 
+const uint8_t** anim_happy_all_frames[] = {anim_happy1_frames, anim_happy2_frames};
+const uint8_t anim_happy_all_numFrames[] = {9, 38};
+
+uint8_t** frames;
+uint8_t numFrames;
+
 void disp_happy() {
-  disp_anim(anim_happy1_frames, anim_happy1_numFrames);
-  Serial.println(F("DISPLAY HAPPY ANIMATION"));
+
+  frames = (uint8_t**)anim_happy_all_frames[current_happy_anim];
+  numFrames = anim_happy_all_numFrames[current_happy_anim];
+  switch(current_happy_anim) {
+    case 0:
+      frames = (uint8_t**)anim_happy1_frames;
+      numFrames = anim_happy1_numFrames;
+      break;
+    case 1:
+      frames = (uint8_t**)anim_happy2_frames;
+      numFrames = anim_happy2_numFrames;
+      break;
+      
+  }
+  disp_anim(frames, numFrames);
   //Serial.println(F("DISPLAY HAPPY ANIMATION")); delay(5000); // DEBUG
 }
 
 void disp_sleepy() {
-  disp_anim(anim_sleep1_frames, anim_sleep1_numFrames);
+  
+  frames = (uint8_t**)anim_sleep1_frames;
+  numFrames = anim_sleep1_numFrames;
+  
+  disp_anim(frames, numFrames);
   //Serial.println(F("DISPLAY SLEEPY ANIMATION")); delay(5000); // DEBUG
 }
 
 void disp_needcare() {
-  disp_anim(anim_need1_frames, anim_need1_numFrames);
+  frames = (uint8_t**)anim_need1_frames;
+  numFrames = anim_need1_numFrames;
+  
+  disp_anim(frames, numFrames);
   //Serial.println(F("DISPLAY NEEDY ANIMATION")); delay(5000); // DEBUG
 }
 
 void disp_love() {
-  disp_anim(anim_love1_frames, anim_love1_numFrames);
+  frames = (uint8_t**)anim_love1_frames;
+  numFrames = anim_love1_numFrames;
+  
+  disp_anim(frames, numFrames);
   //Serial.println("DISPLAY LOVY ANIMATION"); delay(5000); // DEBUG
 }
 
@@ -285,4 +320,13 @@ void buttonISR() {
   seconds_count_sleepy = 0;
   seconds_count_needy = 0;
   change_state(LOVY);
+}
+
+
+// ---------------- //
+// Behavior functions
+// ---------------- //
+void choose_new_happy_anim() {
+  Serial.println(F("Choose new happy anim"));
+  current_happy_anim = (current_happy_anim + 1) % HAPPY_ANIM_NUMBER;
 }
