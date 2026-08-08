@@ -76,6 +76,11 @@
 #include "tamafrogi_need2.h"
 #include "tamafrogi_sleep1.h"
 #include "tamafrogi_sleep2.h"
+#include "tamafrogi_sleep3.h"
+#include "tamafrogi_sleep4.h"
+#include "tamafrogi_sleep5.h"
+#include "tamafrogi_sleep6.h"
+#include "tamafrogi_sleep7.h"
 
 // Display settings
 #define SCREEN_WIDTH  128
@@ -94,6 +99,11 @@
 // Finite-state automaton settings
 enum frogi_states { HAPPY, SLEEPY, NEEDY, LOVY };
 frogi_states frogi_state = HAPPY;
+// PROD
+//#define DELAY_SLEEPY_SEC 300
+//#define DELAY_NEEDY_SEC 3600
+//#define HAPPY_ANIM_DISPLAY_TIMES 30
+// DEBUG
 #define DELAY_SLEEPY_SEC 10
 #define DELAY_NEEDY_SEC 30
 #define HAPPY_ANIM_DISPLAY_TIMES 5
@@ -105,12 +115,12 @@ const uint8_t** anim_lovy_all_frames[] = {anim_love1_frames, anim_love2_frames};
 const uint8_t anim_lovy_all_numFrames[] = {anim_love1_numFrames, anim_love2_numFrames};
 const uint8_t** anim_needy_all_frames[] = {anim_need1_frames, anim_need2_frames};
 const uint8_t anim_needy_all_numFrames[] = {anim_need1_numFrames, anim_need2_numFrames};
-const uint8_t** anim_sleepy_all_frames[] = {anim_sleep1_frames, anim_sleep2_frames};
-const uint8_t anim_sleepy_all_numFrames[] = {anim_sleep1_numFrames, anim_sleep2_numFrames};
+const uint8_t** anim_sleepy_all_frames[] = {anim_sleep1_frames, anim_sleep2_frames, anim_sleep3_frames, anim_sleep4_frames, anim_sleep5_frames, anim_sleep6_frames, anim_sleep7_frames};
+const uint8_t anim_sleepy_all_numFrames[] = {anim_sleep1_numFrames, anim_sleep2_numFrames, anim_sleep3_numFrames, anim_sleep4_numFrames, anim_sleep5_numFrames, anim_sleep6_numFrames, anim_sleep7_numFrames};
 #define HAPPY_ANIM_NUMBER 2 // number of happy animations (tamafrogi_happy1, etc)
 #define LOVY_ANIM_NUMBER 2 // number of lovy animations (tamafrogi_love1, etc)
 #define NEEDY_ANIM_NUMBER 2 // number of need animations (tamafrogi_need1, etc)
-#define SLEEPY_ANIM_NUMBER 2 // number of need animations (tamafrogi_sleep1, etc)
+#define SLEEPY_ANIM_NUMBER 7 // number of need animations (tamafrogi_sleep1, etc)
 
 // global variables
 hw_timer_t * timer = NULL;
@@ -204,7 +214,7 @@ void loop() {
   }
 
   // avoid full cpu loops in unexpected cases
-  delay(0.5);
+  delay(0.1);
 
 }
 
