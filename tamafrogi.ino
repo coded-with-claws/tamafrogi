@@ -70,6 +70,7 @@
 #include "tamafrogi_happy1.h"
 #include "tamafrogi_happy2.h"
 #include "tamafrogi_love1.h"
+#include "tamafrogi_love2.h"
 #include "tamafrogi_need1.h"
 #include "tamafrogi_sleep1.h"
 
@@ -95,13 +96,19 @@ frogi_states frogi_state = HAPPY;
 #define HAPPY_ANIM_DISPLAY_TIMES 5
 
 // other constants
+const uint8_t** anim_happy_all_frames[] = {anim_happy1_frames, anim_happy2_frames};
+const uint8_t anim_happy_all_numFrames[] = {anim_happy1_numFrames, anim_happy2_numFrames};
+const uint8_t** anim_lovy_all_frames[] = {anim_love1_frames, anim_love2_frames};
+const uint8_t anim_lovy_all_numFrames[] = {anim_love1_numFrames, anim_love2_numFrames};
 #define HAPPY_ANIM_NUMBER 2 // number of happy animations (tamafrogi_happy1, etc)
+#define LOVY_ANIM_NUMBER 2 // number of lovy animations (tamafrogi_love1, etc)
 
 // global variables
 hw_timer_t * timer = NULL;
 unsigned int seconds_count_sleepy = 0;
 unsigned int seconds_count_needy = 0;
 uint8_t current_happy_anim = 0;
+uint8_t current_lovy_anim = 0;
 
 Adafruit_SH1106G display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
@@ -170,6 +177,7 @@ void loop() {
       // display a love animation one time then become happy
       disp_love();
       change_state(HAPPY);
+      choose_new_lovy_anim();
       break;
     }
   }
@@ -196,9 +204,6 @@ void disp_anim(uint8_t* anim_frames[], uint8_t num_frames) {
 
 void disp_startup() {
 }
-
-const uint8_t** anim_happy_all_frames[] = {anim_happy1_frames, anim_happy2_frames};
-const uint8_t anim_happy_all_numFrames[] = {anim_happy1_numFrames, anim_happy2_numFrames};
 
 uint8_t** frames;
 uint8_t numFrames;
@@ -229,8 +234,8 @@ void disp_needcare() {
 }
 
 void disp_love() {
-  frames = (uint8_t**)anim_love1_frames;
-  numFrames = anim_love1_numFrames;
+  frames = (uint8_t**)anim_lovy_all_frames[current_lovy_anim];
+  numFrames = anim_lovy_all_numFrames[current_lovy_anim];
   
   disp_anim(frames, numFrames);
   //Serial.println("DISPLAY LOVY ANIMATION"); delay(5000); // DEBUG
@@ -310,11 +315,15 @@ void buttonISR() {
   change_state(LOVY);
 }
 
-
 // ---------------- //
 // Behavior functions
 // ---------------- //
 void choose_new_happy_anim() {
   Serial.println(F("Choose new happy anim"));
   current_happy_anim = (current_happy_anim + 1) % HAPPY_ANIM_NUMBER;
+}
+
+void choose_new_lovy_anim() {
+  Serial.println(F("Choose new lovy anim"));
+  current_lovy_anim = (current_lovy_anim + 1) % LOVY_ANIM_NUMBER;
 }
