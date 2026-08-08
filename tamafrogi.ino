@@ -84,6 +84,14 @@
 #include "tamafrogi_love6.h"
 #include "tamafrogi_need1.h"
 #include "tamafrogi_need2.h"
+#include "tamafrogi_need3.h"
+#include "tamafrogi_need4.h"
+#include "tamafrogi_need5.h"
+#include "tamafrogi_need6.h"
+#include "tamafrogi_need7.h"
+#include "tamafrogi_need8.h"
+#include "tamafrogi_need9.h"
+#include "tamafrogi_need10.h"
 #include "tamafrogi_sleep1.h"
 #include "tamafrogi_sleep2.h"
 #include "tamafrogi_sleep3.h"
@@ -119,22 +127,22 @@ frogi_states frogi_state = HAPPY;
 #define HAPPY_ANIM_DISPLAY_TIMES 5
 
 
-// other constants
+// Constants for animations
 const uint8_t** anim_happy_all_frames[] = {anim_happy1_frames, anim_happy2_frames};
 const uint8_t anim_happy_all_numFrames[] = {anim_happy1_numFrames, anim_happy2_numFrames};
 
 const uint8_t** anim_lovy_all_frames[] = {anim_love1_frames, anim_love2_frames, anim_love3_frames, anim_love4_frames, anim_love5_frames, anim_love6_frames};
 const uint8_t anim_lovy_all_numFrames[] = {anim_love1_numFrames, anim_love2_numFrames, anim_love3_numFrames, anim_love4_numFrames, anim_love5_numFrames, anim_love6_numFrames};
 
-const uint8_t** anim_needy_all_frames[] = {anim_need1_frames, anim_need2_frames};
-const uint8_t anim_needy_all_numFrames[] = {anim_need1_numFrames, anim_need2_numFrames};
+const uint8_t** anim_needy_all_frames[] = {anim_need1_frames, anim_need2_frames, anim_need3_frames, anim_need4_frames, anim_need5_frames, anim_need6_frames, anim_need7_frames, anim_need8_frames, anim_need9_frames, anim_need10_frames};
+const uint8_t anim_needy_all_numFrames[] = {anim_need1_numFrames, anim_need2_numFrames, anim_need3_numFrames, anim_need4_numFrames, anim_need5_numFrames, anim_need6_numFrames, anim_need7_numFrames, anim_need8_numFrames, anim_need9_numFrames, anim_need10_numFrames};
 
 const uint8_t** anim_sleepy_all_frames[] = {anim_sleep1_frames, anim_sleep2_frames, anim_sleep3_frames, anim_sleep4_frames, anim_sleep5_frames, anim_sleep6_frames, anim_sleep7_frames};
 const uint8_t anim_sleepy_all_numFrames[] = {anim_sleep1_numFrames, anim_sleep2_numFrames, anim_sleep3_numFrames, anim_sleep4_numFrames, anim_sleep5_numFrames, anim_sleep6_numFrames, anim_sleep7_numFrames};
 
 #define HAPPY_ANIM_NUMBER 2 // number of happy animations (tamafrogi_happy1, etc)
 #define LOVY_ANIM_NUMBER 6 // number of lovy animations (tamafrogi_love1, etc)
-#define NEEDY_ANIM_NUMBER 2 // number of need animations (tamafrogi_need1, etc)
+#define NEEDY_ANIM_NUMBER 10 // number of need animations (tamafrogi_need1, etc)
 #define SLEEPY_ANIM_NUMBER 7 // number of need animations (tamafrogi_sleep1, etc)
 
 
