@@ -72,6 +72,7 @@
 #include "tamafrogi_love1.h"
 #include "tamafrogi_love2.h"
 #include "tamafrogi_need1.h"
+#include "tamafrogi_need2.h"
 #include "tamafrogi_sleep1.h"
 
 // Display settings
@@ -100,8 +101,11 @@ const uint8_t** anim_happy_all_frames[] = {anim_happy1_frames, anim_happy2_frame
 const uint8_t anim_happy_all_numFrames[] = {anim_happy1_numFrames, anim_happy2_numFrames};
 const uint8_t** anim_lovy_all_frames[] = {anim_love1_frames, anim_love2_frames};
 const uint8_t anim_lovy_all_numFrames[] = {anim_love1_numFrames, anim_love2_numFrames};
+const uint8_t** anim_needy_all_frames[] = {anim_need1_frames, anim_need2_frames};
+const uint8_t anim_needy_all_numFrames[] = {anim_need1_numFrames, anim_need2_numFrames};
 #define HAPPY_ANIM_NUMBER 2 // number of happy animations (tamafrogi_happy1, etc)
 #define LOVY_ANIM_NUMBER 2 // number of lovy animations (tamafrogi_love1, etc)
+#define NEEDY_ANIM_NUMBER 2 // number of need animations (tamafrogi_need1, etc)
 
 // global variables
 hw_timer_t * timer = NULL;
@@ -109,6 +113,7 @@ unsigned int seconds_count_sleepy = 0;
 unsigned int seconds_count_needy = 0;
 uint8_t current_happy_anim = 0;
 uint8_t current_lovy_anim = 0;
+uint8_t current_needy_anim = 0;
 
 Adafruit_SH1106G display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
@@ -171,6 +176,7 @@ void loop() {
       while(frogi_state == NEEDY) {
         disp_needcare();
       }
+      choose_new_needy_anim();
       break;
     }
     case LOVY: {
@@ -220,14 +226,13 @@ void disp_sleepy() {
   
   frames = (uint8_t**)anim_sleep1_frames;
   numFrames = anim_sleep1_numFrames;
-  
   disp_anim(frames, numFrames);
   //Serial.println(F("DISPLAY SLEEPY ANIMATION")); delay(5000); // DEBUG
 }
 
 void disp_needcare() {
-  frames = (uint8_t**)anim_need1_frames;
-  numFrames = anim_need1_numFrames;
+  frames = (uint8_t**)anim_needy_all_frames[current_needy_anim];
+  numFrames = anim_needy_all_numFrames[current_needy_anim];
   
   disp_anim(frames, numFrames);
   //Serial.println(F("DISPLAY NEEDY ANIMATION")); delay(5000); // DEBUG
@@ -326,4 +331,9 @@ void choose_new_happy_anim() {
 void choose_new_lovy_anim() {
   Serial.println(F("Choose new lovy anim"));
   current_lovy_anim = (current_lovy_anim + 1) % LOVY_ANIM_NUMBER;
+}
+
+void choose_new_needy_anim() {
+  Serial.println(F("Choose new needy anim"));
+  current_needy_anim = (current_needy_anim + 1) % NEEDY_ANIM_NUMBER;
 }
