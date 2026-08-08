@@ -67,6 +67,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SH110X.h>
 
+#include "tamafrogi_startup.h"
 #include "tamafrogi_happy1.h"
 #include "tamafrogi_happy2.h"
 #include "tamafrogi_love1.h"
@@ -74,6 +75,7 @@
 #include "tamafrogi_need1.h"
 #include "tamafrogi_need2.h"
 #include "tamafrogi_sleep1.h"
+#include "tamafrogi_sleep2.h"
 
 // Display settings
 #define SCREEN_WIDTH  128
@@ -103,17 +105,23 @@ const uint8_t** anim_lovy_all_frames[] = {anim_love1_frames, anim_love2_frames};
 const uint8_t anim_lovy_all_numFrames[] = {anim_love1_numFrames, anim_love2_numFrames};
 const uint8_t** anim_needy_all_frames[] = {anim_need1_frames, anim_need2_frames};
 const uint8_t anim_needy_all_numFrames[] = {anim_need1_numFrames, anim_need2_numFrames};
+const uint8_t** anim_sleepy_all_frames[] = {anim_sleep1_frames, anim_sleep2_frames};
+const uint8_t anim_sleepy_all_numFrames[] = {anim_sleep1_numFrames, anim_sleep2_numFrames};
 #define HAPPY_ANIM_NUMBER 2 // number of happy animations (tamafrogi_happy1, etc)
 #define LOVY_ANIM_NUMBER 2 // number of lovy animations (tamafrogi_love1, etc)
 #define NEEDY_ANIM_NUMBER 2 // number of need animations (tamafrogi_need1, etc)
+#define SLEEPY_ANIM_NUMBER 2 // number of need animations (tamafrogi_sleep1, etc)
 
 // global variables
 hw_timer_t * timer = NULL;
 unsigned int seconds_count_sleepy = 0;
 unsigned int seconds_count_needy = 0;
+uint8_t** frames;
+uint8_t numFrames;
 uint8_t current_happy_anim = 0;
 uint8_t current_lovy_anim = 0;
 uint8_t current_needy_anim = 0;
+uint8_t current_sleepy_anim = 0;
 
 Adafruit_SH1106G display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
@@ -144,15 +152,15 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(cuddleButton), buttonISR, FALLING);
   Serial.println(F("Cuddle button initialized"));
   
-
   // Timer init
   init_every_second_timer();
+
+  // Startup animation
+  disp_startup();
 }
 
 void loop() {
   uint8_t anim_count = 0;
-  
-  disp_startup();
   
   Serial.print(F("loop - ")); print_state();
   switch(frogi_state) {
@@ -169,6 +177,7 @@ void loop() {
       while(frogi_state == SLEEPY) {
         disp_sleepy();
       }
+      choose_new_sleepy_anim();
       break;
     }
     case NEEDY: {
@@ -209,10 +218,9 @@ void disp_anim(uint8_t* anim_frames[], uint8_t num_frames) {
 }
 
 void disp_startup() {
+  frames = (uint8_t**)anim_startup_frames;
+  disp_anim(frames, anim_startup_numFrames);
 }
-
-uint8_t** frames;
-uint8_t numFrames;
 
 void disp_happy() {
 
@@ -224,8 +232,8 @@ void disp_happy() {
 
 void disp_sleepy() {
   
-  frames = (uint8_t**)anim_sleep1_frames;
-  numFrames = anim_sleep1_numFrames;
+  frames = (uint8_t**)anim_sleepy_all_frames[current_sleepy_anim];
+  numFrames = anim_sleepy_all_numFrames[current_sleepy_anim];
   disp_anim(frames, numFrames);
   //Serial.println(F("DISPLAY SLEEPY ANIMATION")); delay(5000); // DEBUG
 }
@@ -336,4 +344,9 @@ void choose_new_lovy_anim() {
 void choose_new_needy_anim() {
   Serial.println(F("Choose new needy anim"));
   current_needy_anim = (current_needy_anim + 1) % NEEDY_ANIM_NUMBER;
+}
+
+void choose_new_sleepy_anim() {
+  Serial.println(F("Choose new sleepy anim"));
+  current_sleepy_anim = (current_sleepy_anim + 1) % SLEEPY_ANIM_NUMBER;
 }
