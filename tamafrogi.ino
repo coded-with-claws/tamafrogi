@@ -183,7 +183,6 @@ void loop() {
 // Display functions
 // ---------------- //
 
-//void disp_anim(const uint8_t* anim_frames[], const uint8_t num_frames) {
 void disp_anim(uint8_t* anim_frames[], uint8_t num_frames) {
   static uint8_t frameIdx = 0;
   for(frameIdx = 0; frameIdx < num_frames; frameIdx++) {
@@ -229,7 +228,6 @@ void disp_sleepy() {
   frames = (uint8_t**)anim_sleep1_frames;
   numFrames = anim_sleep1_numFrames;
   
-  //disp_anim(anim_sleep1_frames, anim_sleep1_numFrames);
   disp_anim(frames, numFrames);
   //Serial.println(F("DISPLAY SLEEPY ANIMATION")); delay(5000); // DEBUG
 }
@@ -238,7 +236,6 @@ void disp_needcare() {
   frames = (uint8_t**)anim_need1_frames;
   numFrames = anim_need1_numFrames;
   
-  //disp_anim(anim_need1_frames, anim_need1_numFrames);
   disp_anim(frames, numFrames);
   //Serial.println(F("DISPLAY NEEDY ANIMATION")); delay(5000); // DEBUG
 }
@@ -247,7 +244,6 @@ void disp_love() {
   frames = (uint8_t**)anim_love1_frames;
   numFrames = anim_love1_numFrames;
   
-  //disp_anim(anim_love1_frames, anim_love1_numFrames);
   disp_anim(frames, numFrames);
   //Serial.println("DISPLAY LOVY ANIMATION"); delay(5000); // DEBUG
 }
