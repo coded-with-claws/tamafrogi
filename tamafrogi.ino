@@ -155,6 +155,12 @@ void setup() {
   // Timer init
   init_every_second_timer();
 
+  // seed random with sensor pin
+  //randomSeed(analogRead(1));
+
+  // seed random with unconnected pin
+  randomSeed(analogRead(5));
+
   // Startup animation
   disp_startup();
 }
@@ -166,33 +172,33 @@ void loop() {
   switch(frogi_state) {
     case HAPPY: {
       // display a happy animation a few times (then next loop will display another animation if still happy)
+      choose_new_happy_anim();
       for(anim_count = 0; frogi_state == HAPPY && anim_count < HAPPY_ANIM_DISPLAY_TIMES; anim_count++) {
         disp_happy();
       }
-      choose_new_happy_anim();
       break;
     }
     case SLEEPY: {
       // display same animation while not awaken
+      choose_new_sleepy_anim();
       while(frogi_state == SLEEPY) {
         disp_sleepy();
       }
-      choose_new_sleepy_anim();
       break;
     }
     case NEEDY: {
       // display same animation while not taken care of
+      choose_new_needy_anim();
       while(frogi_state == NEEDY) {
         disp_needcare();
       }
-      choose_new_needy_anim();
       break;
     }
     case LOVY: {
       // display a love animation one time then become happy
+      choose_new_lovy_anim();
       disp_love();
       change_state(HAPPY);
-      choose_new_lovy_anim();
       break;
     }
   }
@@ -333,20 +339,36 @@ void buttonISR() {
 // ---------------- //
 void choose_new_happy_anim() {
   Serial.println(F("Choose new happy anim"));
-  current_happy_anim = (current_happy_anim + 1) % HAPPY_ANIM_NUMBER;
+  uint8_t new_happy_anim = current_happy_anim;
+  while(new_happy_anim == current_happy_anim) {
+    new_happy_anim = random(0, HAPPY_ANIM_NUMBER);
+  }
+  current_happy_anim = new_happy_anim;
 }
 
 void choose_new_lovy_anim() {
   Serial.println(F("Choose new lovy anim"));
-  current_lovy_anim = (current_lovy_anim + 1) % LOVY_ANIM_NUMBER;
+  uint8_t new_lovy_anim = current_lovy_anim;
+  while(new_lovy_anim == current_lovy_anim) {
+    new_lovy_anim = random(0, LOVY_ANIM_NUMBER);
+  }
+  current_lovy_anim = new_lovy_anim;
 }
 
 void choose_new_needy_anim() {
   Serial.println(F("Choose new needy anim"));
-  current_needy_anim = (current_needy_anim + 1) % NEEDY_ANIM_NUMBER;
+  uint8_t new_needy_anim = current_needy_anim;
+  while(new_needy_anim == current_needy_anim) {
+    new_needy_anim = random(0, NEEDY_ANIM_NUMBER);
+  }
+  current_needy_anim = new_needy_anim;
 }
 
 void choose_new_sleepy_anim() {
   Serial.println(F("Choose new sleepy anim"));
-  current_sleepy_anim = (current_sleepy_anim + 1) % SLEEPY_ANIM_NUMBER;
+  uint8_t new_sleepy_anim = current_sleepy_anim;
+  while(new_sleepy_anim == current_sleepy_anim) {
+    new_sleepy_anim = random(0, SLEEPY_ANIM_NUMBER);
+  }
+  current_sleepy_anim = new_sleepy_anim;
 }
