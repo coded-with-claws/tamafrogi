@@ -164,7 +164,7 @@ const uint8_t anim_sleepy_all_numFrames[] = {anim_sleep1_numFrames, anim_sleep2_
 #define HAPPY_ANIM_NUMBER 23 // number of happy animations (tamafrogi_happy1, etc)
 #define LOVY_ANIM_NUMBER 6 // number of lovy animations (tamafrogi_love1, etc)
 #define NEEDY_ANIM_NUMBER 10 // number of need animations (tamafrogi_need1, etc)
-#define SLEEPY_ANIM_NUMBER 7 // number of need animations (tamafrogi_sleep1, etc)
+#define SLEEPY_ANIM_NUMBER 7 // number of sleepy animations (tamafrogi_sleep1, etc)
 
 
 // global variables
@@ -270,9 +270,11 @@ void loop() {
 // Display functions
 // ---------------- //
 
+// display whole animation unless frogi state changes
 void disp_anim(uint8_t* anim_frames[], uint8_t num_frames) {
   static uint8_t frameIdx = 0;
-  for(frameIdx = 0; frameIdx < num_frames; frameIdx++) {
+  frogi_states initial_frogi_state = frogi_state;
+  for(frameIdx = 0; frameIdx < num_frames && initial_frogi_state == frogi_state; frameIdx++) {
     display.clearDisplay();
     display.drawBitmap(0, 0, anim_frames[frameIdx], 128, 64, SH110X_WHITE);
     display.display();
