@@ -278,8 +278,7 @@ void disp_anim(uint8_t* anim_frames[], uint8_t num_frames) {
     display.clearDisplay();
     display.drawBitmap(0, 0, anim_frames[frameIdx], 128, 64, SH110X_WHITE);
     display.display();
-    frameIdx = (frameIdx + 1) % num_frames;
-    delay(133);
+    delay(67);
   }  
 }
 
@@ -289,7 +288,6 @@ void disp_startup() {
 }
 
 void disp_happy() {
-
   frames = (uint8_t**)anim_happy_all_frames[current_happy_anim];
   numFrames = anim_happy_all_numFrames[current_happy_anim];
   disp_anim(frames, numFrames);
@@ -297,7 +295,6 @@ void disp_happy() {
 }
 
 void disp_sleepy() {
-  
   frames = (uint8_t**)anim_sleepy_all_frames[current_sleepy_anim];
   numFrames = anim_sleepy_all_numFrames[current_sleepy_anim];
   disp_anim(frames, numFrames);
@@ -307,7 +304,6 @@ void disp_sleepy() {
 void disp_needcare() {
   frames = (uint8_t**)anim_needy_all_frames[current_needy_anim];
   numFrames = anim_needy_all_numFrames[current_needy_anim];
-  
   disp_anim(frames, numFrames);
   //Serial.println(F("DISPLAY NEEDY ANIMATION")); delay(5000); // DEBUG
 }
@@ -315,7 +311,6 @@ void disp_needcare() {
 void disp_love() {
   frames = (uint8_t**)anim_lovy_all_frames[current_lovy_anim];
   numFrames = anim_lovy_all_numFrames[current_lovy_anim];
-  
   disp_anim(frames, numFrames);
   //Serial.println("DISPLAY LOVY ANIMATION"); delay(5000); // DEBUG
 }
