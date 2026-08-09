@@ -6,22 +6,6 @@
  */
 
 /*
- * WIRING
- * 
- * OLED Display
- *   GPIO8 - SDA
- *   GPIO9 - SCL/SCK
- *   3.3V - OLED VCC
- *   GND - OLED GND
- * 
- * Cuddle button
- *   GPIO0 / GND
- * 
- * Motion sensor
- *   GPIO1 / 5V / GND 
- */
-
-/*
  * ALGORITHM
  * 
  * Display a random startup animation
